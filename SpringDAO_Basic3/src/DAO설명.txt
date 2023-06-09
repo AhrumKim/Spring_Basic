@@ -124,7 +124,7 @@ class UserDao{
 		this.simpleconnectionmaker = aaa;
 	}
 }	
-----
+--------
 main 함수 
 SimpleConnectionMaker m = new SimpleConnectionMaker();
 UserDao  dao = new UserDao(m)

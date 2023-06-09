@@ -12,7 +12,9 @@ public class UserDao {
 	//DB연결을 가지고 있는  SimpleConnectionMaker 클래스 사용
 	//UserDao 각 SimpleConnectionMaker 를 <<<<  복합연관   >>>>>(객체의 LifeCycle 동일) **********
 	//dependency 의존관계와 혼동하지 말자 ....,.
+		
 	private SimpleConnectionMaker simpleconnectionmaker;
+	
 	public UserDao(){
 		this.simpleconnectionmaker = new SimpleConnectionMaker();
 	}
