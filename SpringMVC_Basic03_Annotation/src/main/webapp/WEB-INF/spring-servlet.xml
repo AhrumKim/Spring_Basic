@@ -38,6 +38,8 @@
 		</property>
 	</bean>
 	
+	
+	
 	<!-- TEST_1  -->
 	<bean id="helloController" class="com.controller.HelloController"></bean>
 	
@@ -48,4 +50,12 @@
 	화면 ,처리 결정 ....
 	-->
 	<bean class="com.controller.NewArticleController"></bean>
+	<bean class="com.service.ArticleService"></bean>
+	
+	<!-- TEST_3  -->
+	<bean class="com.controller.OrderController"></bean>
+	
+	
+	<!-- TEST_4  -->
+	<bean class="com.controller.SearchController"></bean>
 </beans>
