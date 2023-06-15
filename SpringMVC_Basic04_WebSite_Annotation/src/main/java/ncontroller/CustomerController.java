@@ -1,7 +1,11 @@
 package ncontroller;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -115,13 +119,46 @@ public class CustomerController {
 	///customer/noticeReg.htm  전송 >> POST
 	
 	@PostMapping(value="noticeReg.htm")  
-	public String noticeReg(Notice n) {
-		System.out.println(n.toString());
-		//추후 파일 처리
-		
-		//글쓰기 완료 >> 목록 >> location.href="" or response.sendRedirect
-		//Spring   redirect:notice.htm
-		return "redirect:notice.htm";
+	public String noticeReg(Notice n , HttpServletRequest request) {
+		  
+		    String filename =n.getFile().getOriginalFilename();
+			String path = request.getServletContext().getRealPath("/customer/upload"); //배포된 서버 경로 
+			String fpath = path + "\\" + filename;
+			System.out.println(fpath);
+			
+			FileOutputStream fs =null;
+			try {
+				     fs = new FileOutputStream(fpath);
+				     fs.write(n.getFile().getBytes());
+				     
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				 try {
+					fs.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			//파일명 (DTO)
+			n.setFileSrc(filename);
+			
+			try {
+					noticedao.insert(n);  //DB insert
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+			
+			//insert 나 update 하고 나면 ...(F5 누르면 계속 글이 ..Write)
+			//리스트 (location.href    or   redirect )
+			//서버에게 새로운 요청 ...목록보기
+			//String :   redirect:notice.htm   
+			//Servlet , jsp  :   location.href  or   response.sendRedirect 
+			
+			
+		  return "redirect:notice.htm";
 	}
 	
 	//글 수정하기 (화면이면서 데이터 처리) GET
@@ -151,9 +188,38 @@ public class CustomerController {
 	
 	//form method="post"
 	@PostMapping("noticeEdit.htm")
-	public String noticeEdit(Notice n) {
-	    //추후 파일처리
+	public String noticeEdit(Notice n , HttpServletRequest request) {
+		  //파일 업로드 가능
+	    String filename =n.getFile().getOriginalFilename();
+		String path = request.getServletContext().getRealPath("/customer/upload"); //배포된 서버 경로 
+		String fpath = path + "\\" + filename;
+		System.out.println(fpath);
 		
-		return "redirect:noticeDetail.htm?seq=1";
+		FileOutputStream fs =null;
+		try {
+			     fs = new FileOutputStream(fpath);
+			     fs.write(n.getFile().getBytes());
+			     
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			 try {
+				fs.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//파일명 (DTO)
+		n.setFileSrc(filename);
+	
+		try {
+				noticedao.update(n);  //DB insert
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+	//처리가 끝나면 상세 페이지로 : redirect  글번호를 가지고 ....
+	return "redirect:noticeDetail.htm?seq="+n.getSeq();    //서버에게 새 요청 ....
 	}
 }

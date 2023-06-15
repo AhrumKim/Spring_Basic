@@ -77,7 +77,7 @@
 							공지사항등록
 						</li>
 					</ul>
-					<form action="" method="post">
+					<form action="" method="post"  enctype="multipart/form-data">
 						<div id="notice-article-detail" class="article-detail margin-large" >						
 							<dl class="article-detail-row">
 								<dt class="article-detail-title">
@@ -104,9 +104,10 @@
 						</div>
 						<p class="article-comment margin-small">						
 							<input class="btn-save button" type="submit" value="저장" />
-							<a class="btn-cancel button" href="notice.jsp">취소</a>						
+							<a class="btn-cancel button" href="notice.htm">취소</a>						
 						</p>
 					</form>							
+								
 				</div>				
 				<div id="navi">
 					<h2>고객센터</h2>
